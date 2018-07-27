@@ -1,8 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import reduxThunk from 'redux-thunk';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+import App from 'components/App';
+import Welcome from 'components/Welcome';
+import SignUp from 'components/Auth/SignUp';
+import SignOut from 'components/Auth/SignOut';
+import reducers from 'Reducers';
+import Feature from 'components/Feature'
+
+const store = createStore(
+  reducers,
+  { auth: { authenticated: localStorage.getItem('token')} },
+  applyMiddleware(reduxThunk)
+)
+
+ReactDOM.render(
+  <Provider store={store}>
+    <BrowserRouter>
+      <App>
+        <Route path="/" component={Welcome} exact/>
+        <Route path="/signup" component={SignUp}/>
+        <Route path="/feature" component={Feature}/>
+        <Route path="/signout" component={SignOut}/>
+      </App>
+    </BrowserRouter>
+  </Provider>,
+  document.querySelector('#root')
+);
