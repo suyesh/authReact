@@ -8,7 +8,10 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 // DB Setup
-mongoose.connect('mongodb://localhost:27017/auth', { useNewUrlParser: true });
+mongoose.connect(
+	'mongodb://localhost:27017/auth',
+	{ useNewUrlParser: true }
+);
 
 //Express instance
 const app = express();
@@ -17,9 +20,7 @@ const app = express();
 app.use(morgan('combined'));
 app.use(cors());
 app.use(bodyParser.json({ type: '*/*' }));
-router(app)
-
-
+router(app);
 
 //Server Setup
 const port = process.env.PORT || 3090;
